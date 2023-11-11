@@ -1,0 +1,53 @@
+---
+- name: Jenkins Node Java
+  hosts: localhost
+  remote_user: ec2-user
+  become: true
+  
+  tasks:
+
+    - name: install dependencies
+      yum:
+        name: "{{ package }} "
+        state: present
+      vars:
+        package:
+        - git
+        - tree
+
+    - name: Create a login user
+      user:
+        name: java-node
+        groups: # Empty by default, here we give it some groups
+         - wheel
+        state: present
+        shell: /bin/bash       # Defaults to /bin/bash
+        system: no             # Defaults to no
+        createhome: yes        # Defaults to yes
+        home: /home/java-node # Defaults to /home/<username>
+    
+    - block:
+      - name: Download and Unarchive maven
+        unarchive:
+          src: https://downloads.apache.org/maven/maven-3/3.9.4/binaries/apache-maven-3.9.4-bin.tar.gz
+          dest: /opt
+          copy: no
+
+      - name: Create maven symlink to /usr/bin
+        file:
+          src: /opt/apache-maven-3.9.4/bin/mvn
+          dest: /usr/bin/mvn
+          state: link
+
+      - name: Configure maven and its environment variables
+        lineinfile:
+          dest: "/etc/profile.d/maven.sh"
+          line: "{{ item.line }}"
+          create: yes
+          state: present
+        with_items:
+          - { line: 'M2_HOME=/opt/apache-maven-3.9.4' }
+          - { line: 'PATH=$PATH:$M2_HOME/bin' }
+    
+      - name: Exports/Run maven env file for make M2_HOME available globally
+        shell: "source /etc/profile.d/maven.sh"
