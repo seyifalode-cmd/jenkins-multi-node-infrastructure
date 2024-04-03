@@ -22,3 +22,9 @@ variable "subnet_ips" {}
 variable "security_group" {}
 
 variable "subnets" {}
+
+variable "root_volume_size" {
+  description = "Size of the EBS root volume"
+  type        = number
+  default     = 50
+}

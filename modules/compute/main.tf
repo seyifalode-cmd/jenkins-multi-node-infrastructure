@@ -30,6 +30,11 @@ resource "aws_instance" "jenkins-master" {
   vpc_security_group_ids      = [var.security_group]
   subnet_id                   = var.subnets
 
+  root_block_device {
+    volume_size = var.root_volume_size
+    volume_type = "gp3"
+  }
+
   connection {
       type        = "ssh"
       user        = "ec2-user"
@@ -66,6 +71,10 @@ resource "aws_instance" "jenkins-node-java" {
   vpc_security_group_ids      = [var.security_group]
   subnet_id                   = var.subnets
 
+  root_block_device {
+    volume_size = var.root_volume_size
+    volume_type = "gp3"
+  }
   connection {
       type        = "ssh"
       user        = "ec2-user"
@@ -102,6 +111,10 @@ resource "aws_instance" "jenkins-node-python" {
   vpc_security_group_ids      = [var.security_group]
   subnet_id                   = var.subnets
 
+  root_block_device {
+    volume_size = var.root_volume_size
+    volume_type = "gp3"
+  }
   connection {
       type        = "ssh"
       user        = "ec2-user"
