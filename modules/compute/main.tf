@@ -91,7 +91,7 @@ resource "aws_instance" "jenkins-node-java" {
   # Execute a script on a remote resource
   provisioner "remote-exec" {
     inline = [
-      "sudo yum update -y && sudo yum install ansible -y && sudo yum install java-11-amazon-corretto -y",
+      "sudo yum update -y && sudo yum install ansible -y && sudo yum install java-17-amazon-corretto-headless -y",
       "sleep 60s",
       "ansible-playbook install_jenkins_node_java.yaml"
     ]
@@ -131,7 +131,7 @@ resource "aws_instance" "jenkins-node-python" {
   # Execute a script on a remote resource
   provisioner "remote-exec" {
     inline = [
-      "sudo yum update -y && sudo yum install ansible -y && sudo yum install java-11-amazon-corretto -y",
+      "sudo yum update -y && sudo yum install ansible -y && sudo yum install java-17-amazon-corretto-headless -y",
       "sleep 60s",
       "ansible-playbook install_jenkins_node_python.yaml"
     ]
