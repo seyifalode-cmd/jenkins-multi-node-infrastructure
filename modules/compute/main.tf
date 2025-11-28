@@ -20,7 +20,7 @@ resource "aws_key_pair" "aws-key" {
 #Create and bootstrap Jenkins Master Server
 #===========================================
 resource "aws_instance" "jenkins-master" {
-  instance_type               = "t2.medium"
+  instance_type               = "t3.micro"
   ami                         = data.aws_ssm_parameter.webserver-ami.value
   tags = {
   Name = "jenkins_master"
@@ -61,7 +61,7 @@ resource "aws_instance" "jenkins-master" {
 #Create and bootstrap Jenkins Node Server for Java
 #=================================================
 resource "aws_instance" "jenkins-node-java" {
-  instance_type               = "t2.micro"
+  instance_type               = "t3.micro"
   ami                         = data.aws_ssm_parameter.webserver-ami.value
   tags = {
   Name = "jenkins_node_java"
@@ -101,7 +101,7 @@ resource "aws_instance" "jenkins-node-java" {
 #Create and bootstrap Jenkins Node Server for Python
 #===================================================
 resource "aws_instance" "jenkins-node-python" {
-  instance_type               = "t2.micro"
+  instance_type               = "t3.micro"
   ami                         = data.aws_ssm_parameter.webserver-ami.value
   tags = {
   Name = "jenkins_node_python"
